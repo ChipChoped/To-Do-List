@@ -1,13 +1,7 @@
 package fr.angersuniv.mob.tp01.createlayoutandmenu
 
 object FakeData {
-  /**
-   * Cette méthode retourne une liste de données de test
-   *
-   * @return Une liste de tâches
-   */
-  fun get_tasks(): Array<String> {
-   return arrayOf(
+  val tasks_list = arrayOf(
     "<1> Acheter des piles",
     "<3> Sortir les poubelles",
     "<2> Changer l'ampoule du salon",
@@ -49,6 +43,13 @@ object FakeData {
     "<1> Renouveler la carte de parking",
     "<2> Sortir le chat de la voisine"
    )
+  /**
+   * Cette méthode retourne une liste de données de test
+   *
+   * @return Une liste de tâches
+   */
+  fun get_tasks(): Array<String> {
+   return tasks_list;
   }
 }
 
