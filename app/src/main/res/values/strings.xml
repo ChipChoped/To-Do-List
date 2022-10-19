@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">To Do List</string>
+    <string name="add_task">Ajouter une tâche</string>
+    <string name="textview_priorite">Priorité</string>
+    <string name="textview_haute">Haute</string>
+    <string name="textview_moyenne">Moyenne</string>
+    <string name="textview_basse">Basse</string>
+    <string name="button_ajouter">Ajouter</string>
+</resources>
