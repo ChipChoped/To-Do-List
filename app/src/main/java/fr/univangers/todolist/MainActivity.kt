@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import fr.angersuniv.mob.tp01.createlayoutandmenu.FakeData
 
 
@@ -57,5 +59,10 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun onTaskLinePressed(view: View) {
+        val task = view.findViewById<TextView>(R.id.textview_task).text
+        Toast.makeText(this@MainActivity, task, Toast.LENGTH_SHORT).show()
     }
 }
