@@ -1,12 +1,10 @@
 package fr.univangers.todolist
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioGroup
-import android.widget.Toast
+import android.widget.*
 import fr.angersuniv.mob.tp01.createlayoutandmenu.FakeData
 
 class AddTask : AppCompatActivity() {
@@ -28,8 +26,8 @@ class AddTask : AppCompatActivity() {
                 2 -> dataEditText = "<3> $dataEditText"
             }
 
-            FakeData.tasks_list.plus(dataEditText)
-            Toast.makeText(this@AddTask, "Tâche ajoutée", Toast.LENGTH_SHORT).show()
+            FakeData.tasks_list.add(dataEditText)
+            Toast.makeText(this@AddTask, FakeData.get_tasks().last(), Toast.LENGTH_SHORT).show()
         }
     }
 }

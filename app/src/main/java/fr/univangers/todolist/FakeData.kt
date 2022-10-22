@@ -42,13 +42,13 @@ object FakeData {
     "<2> Vérifier le niveau d'eau de la chaudière",
     "<1> Renouveler la carte de parking",
     "<2> Sortir le chat de la voisine"
-   )
+   ).toCollection(ArrayList())
   /**
    * Cette méthode retourne une liste de données de test
    *
    * @return Une liste de tâches
    */
-  fun get_tasks(): Array<String> {
+  fun get_tasks(): ArrayList<String> {
    return tasks_list;
   }
 }

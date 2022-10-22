@@ -1,5 +1,6 @@
 package fr.univangers.todolist
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -16,6 +17,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
 
+        displayTasks(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        displayTasks(this)
+    }
+
+    private fun displayTasks(context: Context) {
         val lv = findViewById<ListView>(R.id.listview_tasks)
         val adapter = TasksAdapter(this)
         lv.adapter = adapter
