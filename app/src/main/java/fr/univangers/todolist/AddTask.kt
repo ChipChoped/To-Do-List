@@ -15,7 +15,6 @@ class AddTask : AppCompatActivity() {
         setContentView(R.layout.activity_add_task)
     }
 
-    @SuppressLint("ResourceType")
     fun onButtonAddPressed(view: View) {
         val dataEditText : String = findViewById<EditText>(R.id.edittext_task).text.toString()
         if (dataEditText == "")
