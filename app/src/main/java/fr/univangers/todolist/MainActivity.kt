@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = TasksAdapter(this)
         lv.adapter = adapter
 
-        for (text in FakeData.get_tasks()) {
+        for (text in FakeData.getTasks()) {
             val priority: Priorities = when (text.substring(1, 2)) {
                 "1" -> Priorities.HIGH
                 "2" -> Priorities.MEDIUM
