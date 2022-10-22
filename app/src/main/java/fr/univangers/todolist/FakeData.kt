@@ -48,7 +48,7 @@ object FakeData {
    *
    * @return Une liste de tâches
    */
-  fun get_tasks(): ArrayList<String> {
+  fun getTasks(): ArrayList<String> {
    return tasks_list;
   }
 }
