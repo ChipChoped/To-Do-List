@@ -79,25 +79,26 @@
             android:id="@+id/radiogroup_priority"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checkedButton="@id/radio_medium"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radio_high"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <RadioButton
                 android:id="@+id/radio_medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <RadioButton
                 android:id="@+id/radio_low"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
         </RadioGroup>
     </FrameLayout>
 
@@ -106,5 +107,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_ajouter"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:onClick="onButtonAddPressed" />
 </LinearLayout>
