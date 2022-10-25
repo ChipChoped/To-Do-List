@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import fr.angersuniv.mob.tp01.createlayoutandmenu.FakeData
 
 
@@ -29,9 +29,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayTasks(context: Context) {
-        val lv = findViewById<ListView>(R.id.listview_tasks)
-        val adapter = TasksAdapter(this)
-        lv.adapter = adapter
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerview_tasks)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val adapter = RecyclerviewTasksAdapter(this)
+        recyclerView.adapter = adapter
 
         for (text in FakeData.getTasks()) {
             val priority: Priorities = when (text.substring(1, 2)) {
