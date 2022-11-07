@@ -67,10 +67,10 @@ class MainActivity : AppCompatActivity() {
             Activity.RESULT_OK->{
                 val intent = result.data
                 val name : String? = intent?.getStringExtra("NAME")
-                val priority = when(intent?.getIntExtra("PRIORITY", 0)){
-                    0 -> Priorities.LOW
-                    1 -> Priorities.MEDIUM
-                    else -> Priorities.HIGH
+                val priority = when(intent?.getIntExtra("PRIORITY", 2)){
+                    1 -> Priorities.HIGH
+                    3 -> Priorities.LOW
+                    else -> Priorities.MEDIUM
                 }
 
                 adapter.add(name!!, priority)

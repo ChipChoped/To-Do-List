@@ -38,6 +38,7 @@ class AddTask : AppCompatActivity() {
 
             val returnIntent = Intent()
             returnIntent.putExtra("NAME", dataEditText)
+            returnIntent.putExtra("PRIORITY", priority.substring(1, 2).toInt())
             setResult(RESULT_OK, returnIntent)
 
             finish()
