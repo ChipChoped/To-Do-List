@@ -1,6 +1,7 @@
 package fr.univangers.todolist
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -16,6 +17,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.angersuniv.mob.tp01.createlayoutandmenu.FakeData
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,28 +42,17 @@ class MainActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.itemView.tag as Int
-                adapter.delete(position)
+                delete(position)
             }
         }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        if (savedInstanceState != null) {
-            adapter.setTasks(savedInstanceState.getParcelableArrayList<RecyclerviewTasksAdapter.Task>("tasksList")!!)
-        }
-        else {
-            for (text in FakeData.getTasks()) {
-                val priority: Priorities = when (text.substring(1, 2)) {
-                    "1" -> Priorities.HIGH
-                    "2" -> Priorities.MEDIUM
-                    "3" -> Priorities.LOW
-                    else -> Priorities.MEDIUM
-                }
-
-                adapter.add(text.substring(4), priority)
-            }
-        }
+        val dbHelper = TasksDBHelper(this)
+        FakeData.insert_fake_data(dbHelper.writableDatabase)
+        dbHelper.close()
+        createCursor()
     }
 
     private val addTaskResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -67,22 +60,55 @@ class MainActivity : AppCompatActivity() {
             Activity.RESULT_OK->{
                 val intent = result.data
                 val name : String? = intent?.getStringExtra("NAME")
-                val priority = when(intent?.getIntExtra("PRIORITY", 2)){
-                    1 -> Priorities.HIGH
-                    3 -> Priorities.LOW
-                    else -> Priorities.MEDIUM
-                }
+                val priority : Int? = intent?.getIntExtra("PRIORITY", 2)
 
-                adapter.add(name!!, priority)
+                add(name!!, priority!!)
+                //Toast.makeText(this@MainActivity, "Nouvelle tâche ajoutée !", Toast.LENGTH_SHORT).show()
             }
             else -> {}
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+    fun add(name: String, priority: Int) {
+        val dbHelper = TasksDBHelper(this)
+        val db = dbHelper.writableDatabase
 
-        outState.putParcelableArrayList("tasksList", adapter.tasksList)
+        val cv = ContentValues()
+        cv.put(TasksDBHelper.NAME_COL, name)
+        cv.put(TasksDBHelper.PRIORITY_COL, priority)
+
+        db.insert(TasksDBHelper.TABLE_NAME, null, cv)
+        dbHelper.close()
+        createCursor()
+    }
+
+    fun delete(position: Int) {
+        val dbHelper = TasksDBHelper(this)
+        val db = dbHelper.writableDatabase
+        val cursor = adapter.cursor
+
+        if (cursor!!.moveToPosition(position)) {
+            val id = cursor.getString(cursor.getColumnIndexOrThrow(TasksDBHelper.ID_COL))
+            db.delete(TasksDBHelper.TABLE_NAME, "ID = ?", arrayOf(id))
+        }
+
+        dbHelper.close()
+        createCursor()
+    }
+
+    fun createCursor() {
+        val dbHelper = TasksDBHelper(this)
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            TasksDBHelper.TABLE_NAME,
+            arrayOf(TasksDBHelper.ID_COL, TasksDBHelper.NAME_COL, TasksDBHelper.PRIORITY_COL),
+            "",
+            arrayOf(),
+            "",
+            "",
+            ""
+        )
+        adapter.swapCursor(cursor)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

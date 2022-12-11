@@ -26,19 +26,16 @@ class AddTask : AppCompatActivity() {
             val radioMedium = findViewById<RadioButton>(R.id.radio_medium)
 
             val priority : String = if (radioHigh.isChecked) {
-                "<1> "
+                "1"
             } else if (radioMedium.isChecked) {
-                "<2> "
+                "2"
             } else {
-                "<3> "
+                "3"
             }
-
-            FakeData.tasks_list.add(priority + dataEditText)
-            Toast.makeText(this@AddTask, "Nouvelle tâche ajoutée !", Toast.LENGTH_SHORT).show()
 
             val returnIntent = Intent()
             returnIntent.putExtra("NAME", dataEditText)
-            returnIntent.putExtra("PRIORITY", priority.substring(1, 2).toInt())
+            returnIntent.putExtra("PRIORITY", priority.toInt())
             setResult(RESULT_OK, returnIntent)
 
             finish()
