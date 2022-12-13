@@ -6,4 +6,8 @@
         android:title="@string/add_task"
         android:orderInCategory="1"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/menu_setting"
+        android:orderInCategory="2"/>
 </menu>

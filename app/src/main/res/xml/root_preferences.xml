@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/accessibility">
+        <CheckBoxPreference
+            android:title="@string/pref_show_priorities_label"
+            android:key="@string/pref_show_priorities_key"
+            android:summaryOn="@string/pref_show_priorities_summary_on"
+            android:summaryOff="@string/pref_show_priorities_summary_off"
+            app:defaultValue="true"/>
+
+        <EditTextPreference
+            android:title="@string/pref_text_size_label"
+            android:key="@string/pref_text_size_key"
+            app:defaultValue="@string/pref_text_size_default"
+            />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
             val dbHelper = TasksDBHelper(this)
             FakeData.insert_fake_data(dbHelper.writableDatabase)
             dbHelper.close()
+            createCursor()
         }
     }
 
@@ -123,6 +124,11 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_add_task -> {
                 val startIntent = Intent(this, AddTask::class.java)
                 addTaskResult.launch(startIntent)
+                true
+            }
+            R.id.menu_settings -> {
+                val startIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(startIntent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
