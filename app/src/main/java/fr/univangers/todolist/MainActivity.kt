@@ -48,11 +48,13 @@ class MainActivity : AppCompatActivity() {
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-
-        val dbHelper = TasksDBHelper(this)
-        FakeData.insert_fake_data(dbHelper.writableDatabase)
-        dbHelper.close()
         createCursor()
+
+        if (adapter.itemCount == 0) {
+            val dbHelper = TasksDBHelper(this)
+            FakeData.insert_fake_data(dbHelper.writableDatabase)
+            dbHelper.close()
+        }
     }
 
     private val addTaskResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
