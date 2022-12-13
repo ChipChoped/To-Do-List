@@ -3,16 +3,20 @@ package fr.univangers.todolist
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,9 +29,31 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
     private val adapter = RecyclerviewTasksAdapter(this)
 
+    private val sharedPreferenceChangeListener = SharedPreferences.
+        OnSharedPreferenceChangeListener { sharedPreferences, key ->
+            when (key) {
+                getString(R.string.pref_show_priorities_key) -> {
+                    //Charge la valeur de la nouvelle préférence
+                    if (sharedPreferences.getBoolean(key, true)) {
+                        findViewById<View>(R.id.view_priority).visibility = VISIBLE
+                    } else {
+                        findViewById<View>(R.id.view_priority).visibility = INVISIBLE
+                    }
+                }
+                getString(R.string.pref_text_size_key) -> {
+                    findViewById<TextView>(R.id.textview_task).textSize = sharedPreferences.
+                        getFloat(key, getString(R.string.pref_text_size_default).toFloat())
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
+        
+        /*val prefMgr: PreferenceManager = getPreferenceManager()
+        PreferenceManager.sharedPreferencesName = getString(R.string.pref_show_priorities_key)
+        prefMgr.sharedPreferencesMode = MODE_WORLD_READABLE*/
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview_tasks)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -56,6 +82,28 @@ class MainActivity : AppCompatActivity() {
             dbHelper.close()
             createCursor()
         }
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+
+        if (sharedPreferences.getBoolean(getString(R.string.pref_show_priorities_key),true)) {
+            findViewById<View>(R.id.view_priority).visibility = VISIBLE
+        } else {
+            findViewById<View>(R.id.view_priority).visibility = INVISIBLE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        PreferenceManager.getDefaultSharedPreferences(this)!!.
+            unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        PreferenceManager.getDefaultSharedPreferences(this)!!.
+            registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
     }
 
     private val addTaskResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){

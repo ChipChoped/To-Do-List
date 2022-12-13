@@ -3,14 +3,18 @@ package fr.univangers.todolist
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.content.SharedPreferences
 import android.database.Cursor
 import android.os.Parcel
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerviewTasksAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerviewTasksAdapter.TaskViewHolder>() {
